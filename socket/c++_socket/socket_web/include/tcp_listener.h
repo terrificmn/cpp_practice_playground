@@ -27,9 +27,6 @@ protected:
 
     // send a message to a client
     void sendToClient(int client_socket, const char* msg, int legnth);
-    // Broadcast a message from a client
-    void broadcastToClients(int sending_client, const char* msg, int length);
-    
 
 public:
     TcpListener(const char* ip_address, int port);

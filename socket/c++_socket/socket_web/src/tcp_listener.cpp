@@ -68,8 +68,7 @@ int TcpListener::run() {
             std::cerr << "accept() error: client problem";
             return 4;
         }
-
-        this->onClientConnected(client_socket);
+        std::cout << "initial client_socket: " << client_socket << std::endl;
 
         // clean 시키기. 이럴 때도 사용할 수가 있다
         memset(host, 0, NI_MAXHOST);
@@ -84,6 +83,7 @@ int TcpListener::run() {
                                 0);
         
         if(result) {
+            // this->onClientConnected(client_socket); // 불필요?
             std::cout << host << " connected on " << svc << std::endl;
         } else {
             // nemeric to string
@@ -95,7 +95,7 @@ int TcpListener::run() {
         // clear the buffer
         memset(buf, 0, 4096);
 
-        for(;;) {
+        
             // wait for a message
             int byte_recv_in = recv(client_socket, buf, 4096, 0);
             if(byte_recv_in == -1) {
@@ -112,10 +112,11 @@ int TcpListener::run() {
                 
             
                 // echo --- to send a message 
-                send(client_socket, buf, byte_recv_in + 1, 0);
+                // 현재는 onMessageReceived()에서 send() 호출
+                // send(client_socket, buf, byte_recv_in + 1, 0);
 
             }
-        }
+        
 
         // 5. close th listening socket
         close(client_socket);
@@ -127,7 +128,17 @@ int TcpListener::run() {
 
 
 void TcpListener::sendToClient(int client_socket, const char* msg, int length) {
-    send(client_socket, msg, length, 0);
+    std::cout << "now send msg to client\n";
+    std::cout << "msg: " << msg << std::endl;
+
+    int result = send(client_socket, msg, length, 0);
+    if(result == -1) {
+        std::cout << "send() error occured" << std::endl;
+    } else {
+        std::cout << "server: msg sent..\n";
+    }
+
+
 }
 
 
