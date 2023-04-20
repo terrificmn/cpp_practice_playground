@@ -3,6 +3,7 @@
 #include "tcp_listener.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 
 class WebServer : public TcpListener {
@@ -21,6 +22,7 @@ public:
     WebServer(const char* ip_address, int port);
     ~WebServer();
 
+    bool makeHeader(std::string context, std::ostringstream* ptr_os);
     // void broadcastToClients(int sending_client, const char* msg, int length);
 
 };

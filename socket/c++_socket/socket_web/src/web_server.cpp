@@ -30,9 +30,8 @@ void WebServer::onMessageReceived(int client_socket, const char* msg, int length
     // 윈도우가 \r\n 을 사용한다, http 메세지는 모든 라인의 끝은 \r\n 이 되어야 한다.
     // 하지만 리눅스 같은 경우에는 \n (즉 line feed)만 처리 해줘도 작동한다
 
-
-    std::ostringstream os_http;
     // 그냥 text/plain 일 경우 (작동 ok)
+    // std::ostringstream os_http;
     // os_http << "HTTP/1.1 200 OK\r\n";
     // os_http << "Cache-Control: no-cache, private\r\n";
     // os_http << "Content-Type: text/plain\r\n";  
@@ -42,15 +41,18 @@ void WebServer::onMessageReceived(int client_socket, const char* msg, int length
     /// 여기 위까지는 정해짐 형식, 마지막 줄에서 실제 content의 길이는 Context-Lengh 의 길이가 된다
     ///  content의 길이는 순수 개수임
 
-    std::string context = "<h1>Hello World</h1><h2>This is a web server over the TCP socket</h2><h3>Is is very interesting</h3>";
-    int context_size = context.size();
-    /// html 형식 보내기
-    os_http << "HTTP/1.1 200 OK\n";
-    os_http << "Cache-Control: no-cache, private\n";
-    os_http << "Content-Type: text/html\n";  
-    os_http << "Context-Length: " + std::to_string(context_size) + "\n";  
-    os_http << "\n";
-    os_http << context;
+    std::ifstream fs("./wwwroot/index.html");
+    std::string context;
+    std::ostringstream os_http;
+    
+    if(fs.good()) {
+        context = "<h1>Hello World</h1><h2>This is a web server over the TCP socket</h2><h3>Is is very interesting</h3>";
+        
+    } else {
+        context = "<h1>404 Not Found</h1>";
+    }
+
+    this->makeHeader(context, &os_http);  // os_http는 일단 만들어지고 true 리턴됨, 포인터로 직접 수정하므로 주의
 
     std::string output = os_http.str();
     // std::cout << output << std::endl;
@@ -65,6 +67,19 @@ void WebServer::onMessageReceived(int client_socket, const char* msg, int length
 
 }
 
+bool WebServer::makeHeader(std::string context, std::ostringstream* ptr_os) {
+    ptr_os->clear();
+    int context_size = context.size();
+    /// html header
+    *ptr_os << "HTTP/1.1 200 OK\n";
+    *ptr_os << "Cache-Control: no-cache, private\n";
+    *ptr_os << "Content-Type: text/html\n";  
+    *ptr_os << "Context-Length: " << std::to_string(context_size) << "\n";  
+    *ptr_os << "\n";
+    *ptr_os << context;
+
+    return true;
+}
 //     // Broadcast a message from a client
 // void WebServer::broadcastToClients(int sending_client, const char* msg, int length) {
 
