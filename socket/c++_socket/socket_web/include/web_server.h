@@ -5,9 +5,14 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <filesystem>
+#include <vector>
+#include <iterator>
 
 class WebServer : public TcpListener {
 private:
+    std::string pkg_path;
+    std::string www_path = "wwwroot/index.html"; // fixed
 
 protected:
      // Handler for client connections

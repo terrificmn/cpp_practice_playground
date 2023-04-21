@@ -2,7 +2,10 @@
 #include "web_server.h"
 
 WebServer::WebServer(const char* ip_address, int port) : TcpListener(ip_address, port) {
-
+    // current path: now it's in the build directory
+    std::filesystem::path p = std::filesystem::current_path();
+    this->pkg_path = std::filesystem::absolute(p.parent_path());
+    // std::cout << "path: " << this->pkg_path << std::endl;
 }
 
 WebServer::~WebServer() {}
@@ -23,6 +26,17 @@ void WebServer::onMessageReceived(int client_socket, const char* msg, int length
     std::cout << "on Message function\n";
     // procedure
     // Parse out the document requested
+    // std::istringstream iss(msg);
+    // // 모든 스트링을 스페이스 별로 벡터로 만듬
+    // std::vector<std::string> parsed( (std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());   // include iterator를 해야함
+    
+    // // GET으로 넘어왔을 때만 수행하게 하면 실행되게 (블럭안으로 이동) 할 수 있지만,, 그냥 나둠 
+    // // 넘어온 msg에서 vector로 만든 것의 [1]인덱스에 파일명이 들어가 있는데  
+    // // 그렇지 않은 듯 하다. 그래서 일단은 생략.. 1번에는 파일명이 들어 있지 않다
+    // if(parsed.size() >= 3 && parsed[0] == "GET") {
+    //     std::cout << "parsed ok\n";
+    // }
+
     // Open the document in the local file system
     // Write the document back to the client
     /// 이런 타입들은 MDN에서 검색해서 찾아 볼 수 있다 
@@ -41,17 +55,28 @@ void WebServer::onMessageReceived(int client_socket, const char* msg, int length
     /// 여기 위까지는 정해짐 형식, 마지막 줄에서 실제 content의 길이는 Context-Lengh 의 길이가 된다
     ///  content의 길이는 순수 개수임
 
-    std::ifstream fs("./wwwroot/index.html");
+    /// parsed[1]는 GET 다음의 문자열인, 즉 파일명
+    std::string file_full_path = this->pkg_path + "/" + this->www_path;    
+    //  + "/" + parsed[1];// 위의 vector를 사용할 시 파일명으로 대체하나, 일단 1인덱스는 아닌듯 하다
+    std::cout << file_full_path << std::endl;
+    std::ifstream fs(file_full_path);
     std::string context;
     std::ostringstream os_http;
     
     if(fs.good()) {
-        context = "<h1>Hello World</h1><h2>This is a web server over the TCP socket</h2><h3>Is is very interesting</h3>";
+        // 읽은 파일의 처음부터 끝까지 char로 만들어서 스트링으로 만듬
+        // istreambuf_iterator는 <char>로 읽어서 스트링으로 만들어준다 (현재는 fs 열린 파일로부터..)
+        // std::basic_streambuf 오브젝트로부터 single-pass로 입력을 해주는 iterator이고 케릭터를 읽어 카피를 한다
+        // c++에서는 공식적으로는 streams를 이용하는 방법인데 그 중에 하나가 istreambuf_iterator를 이용 --codingClass c++ string부분 참고하기
+        context = std::string( (std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
+        std::cout << "context : " << context << std::endl;
         
     } else {
+        // context = "<h1>Hello World</h1><h2>This is a web server over the TCP socket</h2><h3>Is is very interesting</h3>";
         context = "<h1>404 Not Found</h1>";
     }
 
+    fs.close();
     this->makeHeader(context, &os_http);  // os_http는 일단 만들어지고 true 리턴됨, 포인터로 직접 수정하므로 주의
 
     std::string output = os_http.str();
@@ -85,4 +110,4 @@ bool WebServer::makeHeader(std::string context, std::ostringstream* ptr_os) {
 
 // }
 
-///17:00 part2 부터.....html페이지를 불러와서 할 수 있음
+part2  36:00 부터.....
