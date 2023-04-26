@@ -1,0 +1,3 @@
+/home/sgtocta/Workspace/cpp_practice/cmake_test/build/CMakeFiles/rebuild_cache.dir
+/home/sgtocta/Workspace/cpp_practice/cmake_test/build/CMakeFiles/edit_cache.dir
+/home/sgtocta/Workspace/cpp_practice/cmake_test/build/CMakeFiles/cmake_test.dir
