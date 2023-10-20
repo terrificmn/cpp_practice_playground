@@ -1,3 +1,5 @@
 .vscode
 socket/c++_socket/socket_web/build/
 *.xz
+rest_api_crow/build
+rest_api_crow/dependencies/cpp_redis
