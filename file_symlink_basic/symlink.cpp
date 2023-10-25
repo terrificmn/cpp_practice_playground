@@ -17,3 +17,11 @@ int main() {
             : std::cout << " does not exist\n";
     }
 }
+
+
+
+/// filesystem::exists() 를 이용해서 패스에 해당 파일 여부 확인 가능 c++17 이상 가능
+// std::string new_file = "/home/myuser/Downloads/a.file";
+// std::cout << "path: " << std::filesystem::exists(new_file) << std::endl;
+
+// 아마도 될 듯 하지만 정확히 테스트는 못해봄
