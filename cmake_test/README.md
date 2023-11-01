@@ -21,4 +21,12 @@ src와 include로 cpp, h 파일 등으로 나눠져 있을 때에도
 
 (가장 쉬운 방법은 qt에서는 executable을 지정하는 곳에 직접 header파일 위치를 적어주는 것)
 
+## 새로운 에디터 
+codelite
+```
+sudo apt install codelite
+```
+
+코드::block 이랑 차이점이 있는지 확인해보기
+
 

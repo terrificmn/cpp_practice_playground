@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.5.0)
+project(cmake_test VERSION 0.1.0)
+
+set(CMAKE_CXX_FLAGS "${CMAEK_CXX_FLAGS} -Wall -Werror -std=c++14")
+##모든 워닝, 에러를 표시한다.
+set(source_dir "${PROJECT_SOURCE_DIR}/src")
+###source_dir 설정
+
+##컴파일할 파일 설정
+file(GLOB source_files "${source_dir}/*.cpp)
+
+add_executable(${PROJECT_NAME} ${source_files})
+
+
+### 여기 위까지는 CMakeLists.txt 만드는 예
+
+
+############# 이하는 다른 부분 빌드 관련해서 만드는 부분 
+쉘 script를 만들어준다. 이름은 편하게 `build.sh` 정도? 또한 build 디렉토리도 만들어 준다.
+
+이하 내용...
+```
+#!/bin/sh
+cmake -G "Codelite - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+```
+### 여기에서 Codelite 는 에디터이고, 없을 경우에 테스트 등은 아직 못해봄.  
+### 닌자 등의 빌드 툴을 사용하고 싶으면 Makefiles 대신에 Ninja 등을 넣어주면 된다.   
+### -G 와, Debug 는 빌드를 디버그 할 수 있게 한다.(Cmake type)
+
+쉘 스크립트에서는 chmod 로 +x 준다. (실행)
+
+그래서 쉘 스크립트를 `./build.sh` 로 실행하게 되면 빌드 관련 파일들을 만들어 준다. 
+
+이제 .project, .workspace 파일이 생기게 되는데   
+이 파일들을 codelite 에서 사용할 수 있게 된다   
+
+예: codelite example.workspace
+
+
+> codelite 는 codeblock 대신에 팅커보드에서 사용가능한지 확인 후 업데이트 하기
+
+
+
