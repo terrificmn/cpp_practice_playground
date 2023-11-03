@@ -176,6 +176,21 @@ int main(int argc, char *argv[]) {
     });
 
 
+    // crow::black_magic::const_str is using constexpr under the hood, 
+    // so app.route<crow::black_magic::get_parameter_tag(url)>(url) 
+    // requires compile time information of the route, 
+    // which is probably not what you want. Instead you can use route_dynamic as @d-led mentioned. 
+    // Here is a dummy example:
+    // foo 부분에 해당하는 것이 api endpoint 주소 문자열인데 이게 그냥 rvalue로 "string" 값을 주면 잘 되지만,(컴파일할 때 되어 있어야 한다고 함) 
+    // 변수에 넣어서 줄려고 하면 형식이 맞지 않게 되어 잘 안되는데 const char[]해도 잘 안되는데 아래 방식으로  (물론 string은 당연 안됨 ㅋ)
+    // constexpr로 선언해서 하면 잘 되게 된다. 아래 예를 살펴보자
+    constexpr char foo[] = "/foo";
+    CROW_ROUTE(app, foo)
+    ([]{
+        return "Route has to be available at compile time!";
+    });
+
+
     // enables all log
     // app.loglevel(crow::LogLevel::Debug);
 
