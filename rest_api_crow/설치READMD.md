@@ -8,10 +8,10 @@ A Fast and Easy to use microframework for the web
 sudo dnf install asio-devel
 ```
 
-우분투는 아마도 `sudo apt install libasio-dev` 테스트는 못 해봄
+우분투는 `sudo apt install libasio-dev` 로 설치해준다.
 
-boost 는 패키지는 필요 없는 듯 하다  
-~~sudo dnf install boost.x86_64~~
+boost 는 패키지는 필요 없다.  
+~~sudo dnf install boost.x86_64~~  
 ~~sudo dnf install boost-devel.x86_64~~
 
 이유는 일단 Standalone ASIO 를 사용하는 것 같다.
@@ -19,7 +19,11 @@ non boost 버전과 boost 버전이 있는데(boost 버전은 boost/asio) 부스
 일단 네임 스페이스를 달리해서 사용하므로 둘 다 있어도 가능은 하다고 하지만  
 일단 asio 만 설치
 
-> asio 가 없다면, cmake 에서 could not find asio (missing: asio_include_dir)  에러를 띄운다  
+> asio 가 없다면, cmake 에서  
+:146 (message):  
+  Could NOT find asio (missing: ASIO_INCLUDE_DIR)  
+Call Stack (most recent call first):  
+하고 에러가 발생한다.
 
 그냥 참고...  
 > 빌드시 asio 압축파일을 받아서 빌드 하는 방법도 있는데 정확한 설명이 없어서 설치하기가 까다로운 듯 하다.  
