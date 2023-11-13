@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/restapi_test.dir/jsontest.cpp.o -o restapi_test  /usr/local/lib64/librestc-cpp.a -lboost_system -lboost_program_options -lboost_filesystem -lboost_date_time -lboost_context -lboost_coroutine -lboost_chrono -lboost_log -lboost_thread -lpthread -lboost_log_setup -lboost_regex -lboost_atomic -lz -lssl -lcrypto 
