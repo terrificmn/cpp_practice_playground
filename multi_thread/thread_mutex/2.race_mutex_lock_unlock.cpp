@@ -14,6 +14,17 @@ void add() {
     // 다른 방식으로 unique_lock, lock_guard 등이 있다.
     std::cout << "worker thread started." << std::endl;    
     ++global_count; 
+
+    //
+    try {
+        // 어떤 이유로 throw를 발생시키거나, 어쨋든 thread 함수가 끝나버리는 경우에는 unlock()이 발생을 안하게 된다.
+        // 이렇게 되면 deadlock이 걸리게 되고, 처음 lock()이 걸린상태에서 풀리지 않게되고 frozen 상태가 되게 된다. 
+        // (참고) 이렇때에는 4.mutex_lock_guard.cpp 을 참고해서 스코프를 벗어나면 자동으로 풀릴 수 있는 기능도 있음.
+        throw "dangerous.. abort\n";
+    } catch(...) {
+        std::cout << "handle exception";
+        return;
+    }
     mu.unlock();
 }
 
