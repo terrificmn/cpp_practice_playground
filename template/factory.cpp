@@ -1,40 +1,29 @@
-#include <iostream>
-#include <string>
-#include <unordered_set>
-#include <memory>
+#include "factory.h"
 
-// factory function 만들기 : 클래스의 멤버 변수를 상황에 맞게 사용할 수 있다.
+// Function to print the member values
+void A::print() const {
+    if (robot) std::cout << "robot: " << *robot << std::endl;
+    if (id) std::cout << "id: " << *id << std::endl;
+    if (name) std::cout << "name: " << *name << std::endl;
+}
 
-class A {
-public:
-    std::unique_ptr<int> robot;
-    std::unique_ptr<int> id;
-    std::unique_ptr<std::string> name;
-
-    // Function to print the member values
-    void print() const {
-        if (robot) std::cout << "robot: " << *robot << std::endl;
-        if (id) std::cout << "id: " << *id << std::endl;
-        if (name) std::cout << "name: " << *name << std::endl;
-    }
-
+    
     // Static factory method to create instances of A with selected members
-    static A createA(const std::unordered_set<std::string>& memberNames) {
-        A a;
+A A::createA(const std::unordered_set<std::string>& memberNames) {
+    A a;
 
-        for (const auto& name : memberNames) {
-            if (name == "robot") {
-                a.robot = std::make_unique<int>(0); // or any default value
-            } else if (name == "id") {
-                a.id = std::make_unique<int>(0); // or any default value
-            } else if (name == "name") {
-                a.name = std::make_unique<std::string>(""); // or any default value
-            }
+    for (const auto& name : memberNames) {
+        if (name == "robot") {
+            a.robot = std::make_unique<int>(0); // or any default value
+        } else if (name == "id") {
+            a.id = std::make_unique<int>(0); // or any default value
+        } else if (name == "name") {
+            a.name = std::make_unique<std::string>(""); // or any default value
         }
-
-        return a;
     }
-};
+
+    return a;
+}
 
 
 int main() {
@@ -61,3 +50,6 @@ int main() {
 
     return 0;
 }
+
+
+// g++ -std=c++14 -o factory factory.cpp
