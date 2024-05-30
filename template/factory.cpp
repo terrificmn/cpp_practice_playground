@@ -7,8 +7,14 @@ void A::print() const {
     if (name) std::cout << "name: " << *name << std::endl;
 }
 
-    
-    // Static factory method to create instances of A with selected members
+
+/// 현재 g++ 로 돌릴경우에는 별로 문제가 안되는데 -std=c++14  멤버 변수가 unique_ptr 일 경우에는 컴파일 에러가 발생할 수 있다.
+/// A 클래스가 deleted 삭제 될 수 있다. copy나 이동이 안되는 unique_ptr이어서 그렇다. 쉽게 고치려면 shared_ptr로 바꾸면 해겷할 수 있다.
+/* error: use of deleted function A::A(const A&)’
+   28 |     return A;
+*/
+
+// Static factory method to create instances of A with selected members
 A A::createA(const std::unordered_set<std::string>& memberNames) {
     A a;
 
