@@ -17,6 +17,7 @@
 // T 는 변수처럼 바뀔 수 있다 (T를 많이 사용함)
 // typename 에 type이 아닌 class를 사용할 수 있다. --- class를 사용할 경우 
 // 이때 main 함수 등에서 호출을 할 때에는 <typename> 으로 예 함수명<int>()  이렇게 호출하게 된다
+// typename 은 여러개를 파라미터로 지정할 수 가 있다. 예 <typename T1, typename T2, int N> 등..
 template<typename T>
 void Print(T value) {
     std::cout << value << std::endl;
