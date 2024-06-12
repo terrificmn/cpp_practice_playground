@@ -1,6 +1,6 @@
 // class 함수를 Static 연결해주기 (static member function) 
 
-// static 함수는 메모리에 처음 한번 올라가면 바뀔 수 없는 것을 말한다. (키워드 static 을 맨 앞에 넣어준다)
+// static 함수는 메모리에 처음 한번 올라가면 계속 지속 되는 것을 말함. (키워드 static 을 맨 앞에 넣어준다)
 // 하나의 object로 생각하면 될 듯하다.
 
 // 이런 특징이 있다
