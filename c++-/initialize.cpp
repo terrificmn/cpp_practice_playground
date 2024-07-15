@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <array>
 #include <initializer_list>
 
 int main() {
@@ -48,5 +49,10 @@ int main() {
     myStruct.printTest();
 
 
+
+    /// 참고 array는 {} 로 한번 더 감싸줘야 한다.
+    std::array<int, 2> int_array1 { { 10, 20 } };
+    // 또는 = operator를 사용한다면 괄호를 한번 만 사용하고 만들 수 있다.
+    std::array<int, 2> int_array2 =  { 10, 20 };
 
 }
