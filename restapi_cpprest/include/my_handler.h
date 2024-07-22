@@ -10,7 +10,7 @@
 #include "cpprest/filestream.h"
 #include "cpprest/containerstream.h"
 #include "cpprest/producerconsumerstream.h"
-
+#include "nlohmann/json.hpp"
 
 class MyHandler {
 public:
@@ -18,11 +18,15 @@ public:
     MyHandler(utility::string_t url);
     virtual ~MyHandler();
 
+    pplx::task<void> open();
+    pplx::task<void> close();
+
 
 private:
-    void handler_get(web::http::http_request message);
-    void handler_put(web::http::http_request message);
-    void handle_error(pplx::task<void>& t); 
+    // 우선 get/ put 방식 시도
+    void getHandler(web::http::http_request message);
+    void putHandler(web::http::http_request message);
+    void errorHandler(pplx::task<void>& t);
     web::http::experimental::listener::http_listener m_listener;
 
 };
