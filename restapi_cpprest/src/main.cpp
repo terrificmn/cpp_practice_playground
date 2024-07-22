@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
     utility::string_t port = U("8888");
 
-    utility::string_t address = U("http://192.168.10.22:");
+    utility::string_t address = U("http://localhost:");
     address.append(port);
 
     // init(address);

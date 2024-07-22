@@ -24,15 +24,20 @@ https://github.com/Microsoft/cpprestsdk/wiki/Samples
 https://github.com/Meenapintu/Restweb/blob/master/include/handler.h
 
 
-## json lib 설치하기
-rapidjson을 사용해도 되나, 
+## fedora 에서 에러 발생 시
+```
+CMake Error at /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
+  Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR)
+```
 
-다른 라이브러리를 시도해 보려고 함 (jsoncpp, nlohmann json 등 많음)  
-이 중 nlohmann/json 시도
+다행히 쉽게 설치 가능하다. zlib-ng-compat-devel 을 설치해준다.
+```
+sudo dnf install zlib-devel
+```
 
-https://json.nlohmann.me/home/releases/ 
-에서 다운로드 
-zip파일 압축을 풀면 include 디렉토리가 생기는데 include 디렉토리의 nlohmann 디렉토리를 자신의 프로젝트 인쿠르드 디렉토리 이동 시켜준다  
 
-find_package() 를 할 필요는 없고, include 디렉토리만 잘 지정해주고 헤더파일만 include 해주면 문제 없이 빌드 된다.
+### rapidjson
+헤더파일만 넣어주고 사용 (/usr/local/include) 에 들어가 있으므로 파일 찾는데는 큰 문제 없다.   
+
+> 공식 깃허브에서 클론 후 include 이하의 rapidjson 파일을 /usr/local/include/ 에 복사해서 사용
 

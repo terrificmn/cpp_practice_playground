@@ -35,18 +35,31 @@ void MyHandler::getHandler(web::http::http_request message) {
 
 void MyHandler::putHandler(web::http::http_request message) {
     std::cout <<  message.to_string() << std::endl;
-    std::string str_msg = message.to_string();
-    // using json = nlohmann::json;
-    // 어떤식으로 사용하는지 아직 잘 파악이 안됨
-    // auto parsed = nlohmann::json::parse(str_msg);
-    
-    // if(parsed.is_number()) {
-    //     std::cout << parsed << std::endl;
-    // }
-    
+    /// web::http::http_request 에는 다양한 메세지가 들어가 있다. 예를 들어 
+        // HTTP/1.1
+        // Accept: */*
+        // Content-Length: 20
+        // Content-Type: application/json
+        // Host: localhost:8888
+        // User-Agent: insomnia/9.3.2
+    /// 그렇게 때문에 string으로 변환해서 json으로 처리하려고 하면 에러 발생하며 사용할 수 없다. 
 
+    /// json 부분만 떼어 내기
+    pplx::task<utility::string_t> json = message.extract_string();
+    std::string str_json = utility::conversions::to_utf8string(json.get());
 
-    
+    /// parsing json
+    rapidjson::Document docu;
+    docu.Parse(str_json.c_str());
+
+    if(docu.HasMember("json")) {
+        if(docu["json"].IsString()) {
+            std::cout << "json: " << docu["json"].GetString() << std::endl;
+        }
+    } else {
+        std::cout << "json ignored\n";
+    }
+
     // response
     std::string rep = U("AMR Labs PUT method test. OK!");
     message.reply(web::http::status_codes::OK, rep);

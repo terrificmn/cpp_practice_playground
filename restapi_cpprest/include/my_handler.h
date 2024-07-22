@@ -10,7 +10,7 @@
 #include "cpprest/filestream.h"
 #include "cpprest/containerstream.h"
 #include "cpprest/producerconsumerstream.h"
-#include "nlohmann/json.hpp"
+#include "rapidjson/document.h"
 
 class MyHandler {
 public:
