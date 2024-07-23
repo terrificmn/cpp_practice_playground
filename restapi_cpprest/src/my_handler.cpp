@@ -52,9 +52,11 @@ void MyHandler::putHandler(web::http::http_request message) {
     rapidjson::Document docu;
     docu.Parse(str_json.c_str());
 
-    if(docu.HasMember("json")) {
+    if(docu.IsObject() && docu.HasMember("json")) {
         if(docu["json"].IsString()) {
             std::cout << "json: " << docu["json"].GetString() << std::endl;
+        } else {
+            std::cout << "not string, json ignored\n";
         }
     } else {
         std::cout << "json ignored\n";

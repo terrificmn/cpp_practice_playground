@@ -1,7 +1,6 @@
 #include <iostream>
 #include <memory>
 #include "my_handler.h"
-#include "nlohmann/json.hpp"
 
 void init(const std::string& address) {
     web::http::uri_builder uri(address);
@@ -17,12 +16,9 @@ void init(const std::string& address) {
 }
 
 
-
 int main(int argc, char *argv[]) {
-
     utility::string_t port = U("8888");
-
-    utility::string_t address = U("http://localhost:");
+    utility::string_t address = U("http://192.168.10.22:");
     address.append(port);
 
     // init(address);
