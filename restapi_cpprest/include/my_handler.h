@@ -24,6 +24,7 @@ public:
 
 private:
     // 우선 get/ put 방식 시도
+    void optionsHandler(web::http::http_request message);
     void getHandler(web::http::http_request message);
     void putHandler(web::http::http_request message);
     void errorHandler(pplx::task<void>& t);

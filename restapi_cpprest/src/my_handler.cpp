@@ -6,6 +6,8 @@ MyHandler::~MyHandler() { }
 MyHandler::MyHandler(utility::string_t url) : m_listener(url) {
     this->m_listener.support(web::http::methods::GET, std::bind(&MyHandler::getHandler, this, std::placeholders::_1));
     this->m_listener.support(web::http::methods::PUT, std::bind(&MyHandler::putHandler, this, std::placeholders::_1));
+    this->m_listener.support(web::http::methods::OPTIONS, std::bind(&MyHandler::optionsHandler, this, std::placeholders::_1));
+
     // 다른 메소드는 추후 테스트
 }
 
@@ -29,11 +31,37 @@ pplx::task<void> MyHandler::close() {
 
 }
 
+void MyHandler::optionsHandler(web::http::http_request message) {
+    web::http::http_response response(web::http::status_codes::OK);
+    response.headers().add("Access-Control-Allow-Origin", "*");
+    response.headers().add("Access-Control-Allow-Methods", "*");
+    response.headers().add("Access-Control-Allow-Headers", "*");
+
+    std::cout << "\nOPTIONS\n";
+
+    message.reply(response);
+
+}
+
+
 void MyHandler::getHandler(web::http::http_request message) {
     std::cout << message.to_string() << std::endl;
+    std::string rep = U("AMR Labs PUT method test. OK!");
+
+    web::http::http_response response(web::http::status_codes::OK);
+    response.headers().add("Access-Control-Allow-Origin", "*");
+    response.headers().add("Access-Control-Allow-Methods", "*");
+    response.headers().add("Access-Control-Allow-Headers", "*");
+
+    message.reply(response);
 }
 
 void MyHandler::putHandler(web::http::http_request message) {
+    web::http::http_response response(web::http::status_codes::OK);
+    response.headers().add("Access-Control-Allow-Origin", "*");
+    response.headers().add("Access-Control-Allow-Methods", "*");
+    response.headers().add("Access-Control-Allow-Headers", "*");
+
     std::cout <<  message.to_string() << std::endl;
     /// web::http::http_request 에는 다양한 메세지가 들어가 있다. 예를 들어 
         // HTTP/1.1
@@ -64,5 +92,5 @@ void MyHandler::putHandler(web::http::http_request message) {
 
     // response
     std::string rep = U("AMR Labs PUT method test. OK!");
-    message.reply(web::http::status_codes::OK, rep);
+    message.reply(response);
 }
