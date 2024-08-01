@@ -7,6 +7,11 @@ sudo dnf install cpprest-devel
 
 쉽게 설치 가능
 
+우분투
+```
+sudo apt install libcpprest-dev
+```
+
 예제도 꽤 있는 듯 하고,, 좀 더 어려운 듯 하지만 테스트 해봐야할 듯 하다.. 
 
 아마도 이 정도가 cpp에서는 괜찮을 듯 하지만.. 아직은 모르겠다.
