@@ -35,6 +35,10 @@ void on_message(client* client, websocketpp::connection_hdl hdl, message_ptr msg
 }
 
 
+
+///TODO: 클라이언트로 예제로 잘 작동한다. 
+/// 람다함수 등으로 만들 수가 있는데, 다음번에는 테스트 해봐야겠다.
+
 int main() {
     std::cout << "hello webrtc!" << std::endl;
 
