@@ -1,6 +1,8 @@
  
 현재 디렉토리에서 사용할 경우
+```
 protoc -I=`pwd` --cpp_out=`pwd` `pwd`/addressbook.proto
+```
 
 현재 디렉토리에 addressbook.pb.h 파일과 addressbook.pb.cc 파일이 만들어 진다.
 
@@ -68,4 +70,13 @@ bool ParseFromString(const string& data);   string으로 들어온 메세지 par
 bool SerializeToOstream(ostream* output) const;   c++ ostream 으로 들어온 것을 쓰기
 
 bool ParseFromIstream(istream* input);     c++ istream 의 메세지를 parse
+
+
+
+### 내 패키지에서 cmake 하기
+지금 protocol_buffer 디렉토리의 CMakeLists.txt 를 참고하자.   
+
+> abseil를 포함할 일은 없는 것 같다..  protobuf 가 의존성 abseil 이 의존성이 있다고 해서    
+이것저것 해봤지만 오히려 안되기만 함   
+따로 abseil을 포함하지 않아도 잘 빌드가 된다. (예: find_package 안하기 등..)   
 

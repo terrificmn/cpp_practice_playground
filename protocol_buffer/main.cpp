@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "addressbook.pb.h"
+#include "read.h"
 
 // This function fills in a Person message based on user input.
 void PromptForAddress(tutorial::Person* person) {
@@ -63,8 +64,26 @@ int main(int argc, char** argv) {
     }
 
     tutorial::AddressBook address_book;
-
     {
+        std::string argv_str = argv[1];
+        /// TODO: 파라미터 받아서 처리하는 부분이랑 같은 내용이라서 수정이 필요할 듯 하다.
+        if(argv_str == "read") {
+            std::cout << "yes read selected\n";
+            
+            {
+                // Read the existing address book.
+                std::fstream input(argv[1], std::ios::in | std::ios::binary);
+                if (!address_book.ParseFromIstream(&input)) {
+                    std::cerr << "Failed to parse address book." << std::endl;
+                    return -1;
+                }
+            }
+
+            ListPeople(address_book);
+            google::protobuf::ShutdownProtobufLibrary();
+            return 0;
+        }
+
         // Read the existing address book.
         std::fstream input(argv[1], std::ios::in | std::ios::binary);
         if(!input) {

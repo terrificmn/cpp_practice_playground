@@ -92,6 +92,7 @@ abseil-cpp 을 자신의 프로젝트로 옮긴 후에 git submoudle 로 등록�
 예
 ```
 cmake_minimum_required(VERSION 3.16)
+### c++17 사용하려면 cmake_minimum_required(VERSION 3.8)
 project(my_app_project)
 
 # Pick the C++ standard to compile with.
@@ -99,9 +100,13 @@ project(my_app_project)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+## 버전 c++17을 사용하려면 해준다.
+## set(CMAKE_CXX_STANDARD 17)
+## set(ABSL_PROPAGATE_CXX_STD ON)
+
 add_subdirectory(abseil-cpp)
 
-add_executable(my_exe source.cpp)
+add_executable(${PROJECT_NAME} source.cpp)
 target_link_libraries(my_exe absl::base absl::synchronization absl::strings)
 ```
 
@@ -116,6 +121,28 @@ target_link_libraries(my_exe absl::base absl::synchronization absl::strings)
 
 
 ### protocol buffer 빌드
+어이가 없지만;;
+페도라
+
+```
+sudo dnf install protobuf-devel
+```
+
+다 필요없고, pre binary 패키지로 받자.. 그게 가장 속편하다..;;;   
+왜 공식 깃허브에는 c++이면 빌드를 추천한다고 했을까?;;;
+
+어쨋든 버전은 3.19 버전이 설치된다.  
+`libprotoc 3.19.6`
+
+
+### 역시 빌드 아래도 참고만 하자..
+우분투에서는 bazel로 소스코드 빌드가 가능하고, 페도라 버전에서는 cmake 로 빌드가 편하다   
+
+**단, 최신버전 protoc 빌드 한 후 실제로 사용할 내 패키지에서 빌드가 잘 안되니 비추**
+
+> 그냥 무조건 dnf 로 받자!, 
+
+
 클론 
 ```
 git clone https://github.com/protocolbuffers/protobuf.git
