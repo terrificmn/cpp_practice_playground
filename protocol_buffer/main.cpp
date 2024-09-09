@@ -58,50 +58,50 @@ int main(int argc, char** argv) {
     // compatible with the version of the headers we compiled against.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    if(argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " ADDRESS_BOOK_FILE" << std::endl;
+    if(argc != 3) {
+        std::cerr << "Usage: " << argv[0] << " <write || read>  <ADDRESS_BOOK_FILE>" << std::endl;
         return -1;
     }
 
     tutorial::AddressBook address_book;
+    std::string argv_str = argv[1];
     {
-        std::string argv_str = argv[1];
         /// TODO: 파라미터 받아서 처리하는 부분이랑 같은 내용이라서 수정이 필요할 듯 하다.
         if(argv_str == "read") {
-            std::cout << "yes read selected\n";
-            
+            std::cout << "yes 'read' selected.\n";
+            // Read the existing address book. // 저장된 파일이 있다면 읽는다.
+            std::fstream input(argv[2], std::ios::in | std::ios::binary);
+            if (!address_book.ParseFromIstream(&input)) {
+                std::cerr << "Failed to parse address book." << std::endl;
+                return -1;
+            }
+
+            ListPeople(address_book);
+        
+        } else if(argv_str == "write") {
+            std::cout << "yes 'write' selected.\n";
+            // Read the existing address book.
+            std::fstream input(argv[2], std::ios::in | std::ios::binary);
+            if(!input) {
+                std::cout << argv[2] << ": file not Found. Creating a new file." << std::endl;
+            } else if(!address_book.ParseFromIstream(&input)) {
+                std::cerr << "Failed to parse adderss book." << std::endl;
+                return -1;
+            }
+
+            // ADD an address
+            PromptForAddress(address_book.add_people());
             {
-                // Read the existing address book.
-                std::fstream input(argv[1], std::ios::in | std::ios::binary);
-                if (!address_book.ParseFromIstream(&input)) {
-                    std::cerr << "Failed to parse address book." << std::endl;
+                // Write the new address book back to disk  // 2번째 파라미터로 온 파일명으로 build 디렉토리(현재 디렉토리)에 저장
+                std::fstream output(argv[2], std::ios::out | std::ios::trunc | std::ios::binary);
+                if(!address_book.SerializeToOstream(&output)) {
+                    std::cerr << "Failed to write address book." << std::endl;
                     return -1;
                 }
             }
 
-            ListPeople(address_book);
-            google::protobuf::ShutdownProtobufLibrary();
-            return 0;
-        }
-
-        // Read the existing address book.
-        std::fstream input(argv[1], std::ios::in | std::ios::binary);
-        if(!input) {
-            std::cout << argv[1] << ": file not Found. Creating a new file." << std::endl;
-        } else if(!address_book.ParseFromIstream(&input)) {
-            std::cerr << "Failed to parse adderss book." << std::endl;
-            return -1;
-        }
-    }
-
-    // ADD an address
-    PromptForAddress(address_book.add_people());
-
-    {
-        // Write the new address book back to disk
-        std::fstream output(argv[1], std::ios::out | std::ios::trunc | std::ios::binary);
-        if(!address_book.SerializeToOstream(&output)) {
-            std::cerr << "Failed to write address book." << std::endl;
+        } else {
+            std::cerr << "first parameter wrong: <write || read>\n";
             return -1;
         }
     }
@@ -111,3 +111,16 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+/*
+mkdir build
+cd build
+cmake ..
+make
+
+이후 build 디렉토리에서 실행파일 실행 및 파라미터 2번째 이름으로 생성된 파일을 쓰거나 읽을 수 있음.
+
+예:
+./protocol_buffer write addressbook
+./protocol_buffer read addressbook
+*/
