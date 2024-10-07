@@ -1,5 +1,5 @@
  
-현재 디렉토리에서 사용할 경우
+현재 디렉토리에서 사용할 경우 (.proto 파일이 있는 상위)  
 ```
 protoc -I=`pwd` --cpp_out=`pwd` `pwd`/addressbook.proto
 ```
@@ -79,4 +79,17 @@ bool ParseFromIstream(istream* input);     c++ istream 의 메세지를 parse
 > abseil를 포함할 일은 없는 것 같다..  protobuf 가 의존성 abseil 이 의존성이 있다고 해서    
 이것저것 해봤지만 오히려 안되기만 함   
 따로 abseil을 포함하지 않아도 잘 빌드가 된다. (예: find_package 안하기 등..)   
+
+
+### libprotoc 사용 시
+cartographer 설치할 때 의존성으로 설치되는 libprotoc 버전은 3.12.4
+
+직접 빌드해서 bazel 로 빌드하면 libprotoc 29.0-dev 버전이 되어서 버전이 크게 다르다.  (아마도 최신 버전)   
+이 상태에서 colcon 빌드를 하게 되면 
+google/protobuf/runtime_version.h 파일을 찾는데 이게 없어서 에러가 발생   
+
+일단 버전 **3.12.4** 으로 사용하는 것이 편하고 쉬울 듯 하다.   
+> 물론 runtime_version.h 가 필요 없음
+
+
 

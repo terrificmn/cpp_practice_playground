@@ -50,7 +50,7 @@ gclient sync
 ## 빌드 WebRTC 라이브러리
 빌드는 ninja를 사용, GN 을 이용함  
 
-src 디렉토리 (release 빌드)
+이하 src 디렉토리에서 실행해준다. (release 빌드)   
 ```
 gn gen out/Release --args='is_debug=false is_component_build=false rtc_include_tests=false'
 ```

@@ -74,7 +74,7 @@ const uint32_t TableStruct_addressbook_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   PROTOBUF_FIELD_OFFSET(::tutorial::Person_PhoneNumber, type_),
   0,
   1,
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::tutorial::Person, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::tutorial::Person, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -84,6 +84,10 @@ const uint32_t TableStruct_addressbook_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   PROTOBUF_FIELD_OFFSET(::tutorial::Person, id_),
   PROTOBUF_FIELD_OFFSET(::tutorial::Person, email_),
   PROTOBUF_FIELD_OFFSET(::tutorial::Person, phones_),
+  ~0u,
+  0,
+  ~0u,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::tutorial::AddressBook, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -94,8 +98,8 @@ const uint32_t TableStruct_addressbook_2eproto::offsets[] PROTOBUF_SECTION_VARIA
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::tutorial::Person_PhoneNumber)},
-  { 10, -1, -1, sizeof(::tutorial::Person)},
-  { 20, -1, -1, sizeof(::tutorial::AddressBook)},
+  { 10, 20, -1, sizeof(::tutorial::Person)},
+  { 24, -1, -1, sizeof(::tutorial::AddressBook)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -105,20 +109,21 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_addressbook_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\021addressbook.proto\022\010tutorial\"\260\002\n\006Person"
-  "\022\014\n\004name\030\001 \001(\t\022\n\n\002id\030\002 \001(\005\022\r\n\005email\030\003 \001("
-  "\t\022,\n\006phones\030\004 \003(\0132\034.tutorial.Person.Phon"
-  "eNumber\032e\n\013PhoneNumber\022\023\n\006number\030\001 \001(\tH\000"
-  "\210\001\001\022-\n\004type\030\002 \001(\0162\032.tutorial.Person.Phon"
-  "eTypeH\001\210\001\001B\t\n\007_numberB\007\n\005_type\"h\n\tPhoneT"
-  "ype\022\032\n\026PHONE_TYPE_UNSPECIFIED\020\000\022\025\n\021PHONE"
-  "_TYPE_MOBILE\020\001\022\023\n\017PHONE_TYPE_HOME\020\002\022\023\n\017P"
-  "HONE_TYPE_WORK\020\003\"/\n\013AddressBook\022 \n\006peopl"
-  "e\030\001 \003(\0132\020.tutorial.Personb\006proto3"
+  "\n\021addressbook.proto\022\010tutorial\"\274\002\n\006Person"
+  "\022\014\n\004name\030\001 \001(\t\022\017\n\002id\030\002 \001(\005H\000\210\001\001\022\r\n\005email"
+  "\030\003 \001(\t\022,\n\006phones\030\004 \003(\0132\034.tutorial.Person"
+  ".PhoneNumber\032e\n\013PhoneNumber\022\023\n\006number\030\001 "
+  "\001(\tH\000\210\001\001\022-\n\004type\030\002 \001(\0162\032.tutorial.Person"
+  ".PhoneTypeH\001\210\001\001B\t\n\007_numberB\007\n\005_type\"h\n\tP"
+  "honeType\022\032\n\026PHONE_TYPE_UNSPECIFIED\020\000\022\025\n\021"
+  "PHONE_TYPE_MOBILE\020\001\022\023\n\017PHONE_TYPE_HOME\020\002"
+  "\022\023\n\017PHONE_TYPE_WORK\020\003B\005\n\003_id\"/\n\013AddressB"
+  "ook\022 \n\006people\030\001 \003(\0132\020.tutorial.Personb\006p"
+  "roto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_addressbook_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_addressbook_2eproto = {
-  false, false, 393, descriptor_table_protodef_addressbook_2eproto, "addressbook.proto", 
+  false, false, 405, descriptor_table_protodef_addressbook_2eproto, "addressbook.proto", 
   &descriptor_table_addressbook_2eproto_once, nullptr, 0, 3,
   schemas, file_default_instances, TableStruct_addressbook_2eproto::offsets,
   file_level_metadata_addressbook_2eproto, file_level_enum_descriptors_addressbook_2eproto, file_level_service_descriptors_addressbook_2eproto,
@@ -414,6 +419,10 @@ void Person_PhoneNumber::InternalSwap(Person_PhoneNumber* other) {
 
 class Person::_Internal {
  public:
+  using HasBits = decltype(std::declval<Person>()._has_bits_);
+  static void set_has_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 Person::Person(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -428,6 +437,7 @@ Person::Person(::PROTOBUF_NAMESPACE_ID::Arena* arena,
 }
 Person::Person(const Person& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_),
       phones_(from.phones_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -495,11 +505,13 @@ void Person::Clear() {
   name_.ClearToEmpty();
   email_.ClearToEmpty();
   id_ = 0;
+  _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* Person::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -514,9 +526,10 @@ const char* Person::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
         } else
           goto handle_unusual;
         continue;
-      // int32 id = 2;
+      // optional int32 id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _Internal::set_has_id(&has_bits);
           id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -561,6 +574,7 @@ const char* Person::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -584,8 +598,8 @@ uint8_t* Person::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // int32 id = 2;
-  if (this->_internal_id() != 0) {
+  // optional int32 id = 2;
+  if (_internal_has_id()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_id(), target);
   }
@@ -645,8 +659,9 @@ size_t Person::ByteSizeLong() const {
         this->_internal_email());
   }
 
-  // int32 id = 2;
-  if (this->_internal_id() != 0) {
+  // optional int32 id = 2;
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_id());
   }
 
@@ -679,7 +694,7 @@ void Person::MergeFrom(const Person& from) {
   if (!from._internal_email().empty()) {
     _internal_set_email(from._internal_email());
   }
-  if (from._internal_id() != 0) {
+  if (from._internal_has_id()) {
     _internal_set_id(from._internal_id());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -701,6 +716,7 @@ void Person::InternalSwap(Person* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   phones_.InternalSwap(&other->phones_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),

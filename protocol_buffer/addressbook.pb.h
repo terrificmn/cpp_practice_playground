@@ -481,7 +481,11 @@ class Person final :
   std::string* _internal_mutable_email();
   public:
 
-  // int32 id = 2;
+  // optional int32 id = 2;
+  bool has_id() const;
+  private:
+  bool _internal_has_id() const;
+  public:
   void clear_id();
   int32_t id() const;
   void set_id(int32_t value);
@@ -497,11 +501,12 @@ class Person final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::tutorial::Person_PhoneNumber > phones_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
   int32_t id_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_addressbook_2eproto;
 };
 // -------------------------------------------------------------------
@@ -822,9 +827,17 @@ inline void Person::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:tutorial.Person.name)
 }
 
-// int32 id = 2;
+// optional int32 id = 2;
+inline bool Person::_internal_has_id() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool Person::has_id() const {
+  return _internal_has_id();
+}
 inline void Person::clear_id() {
   id_ = 0;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline int32_t Person::_internal_id() const {
   return id_;
@@ -834,7 +847,7 @@ inline int32_t Person::id() const {
   return _internal_id();
 }
 inline void Person::_internal_set_id(int32_t value) {
-  
+  _has_bits_[0] |= 0x00000001u;
   id_ = value;
 }
 inline void Person::set_id(int32_t value) {
