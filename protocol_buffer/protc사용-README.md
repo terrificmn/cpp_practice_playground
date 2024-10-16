@@ -4,6 +4,14 @@
 protoc -I=`pwd` --cpp_out=`pwd` `pwd`/addressbook.proto
 ```
 
+optional 옵션을 사용해서  proto 를 만드는 경우에는 (아마도 버전에 따라 다른 듯 하다.)   
+--experimental_allow_proto3_optional 옵션을 넣어달라고 한다. 
+
+proto파일이 있는 경로로 먼저 이동 후에, 아래 예시 처럼 입력
+```
+protoc -I=`pwd` --cpp_out=`pwd` `pwd`/my-filename.proto --experimental_allow_proto3_optional
+```
+
 현재 디렉토리에 addressbook.pb.h 파일과 addressbook.pb.cc 파일이 만들어 진다.
 
 엄청 긴 내용 중에서 
@@ -91,5 +99,33 @@ google/protobuf/runtime_version.h 파일을 찾는데 이게 없어서 에러가
 일단 버전 **3.12.4** 으로 사용하는 것이 편하고 쉬울 듯 하다.   
 > 물론 runtime_version.h 가 필요 없음
 
+
+
+### 중첩 되어 있는 오브젝트 등을 사용할 경우 
+proto 로 다른 파일에서 같은 오브젝트를 적용할 경우에 실제 그 예를 들어 myproto.pb.cc 파일을 사용할 때  
+이미 해당 오브젝트 등이 정의 되어 있다라고 하는 에러가 발생한다 
+
+> protoc 로 빌드할 때는 별개로 문제가 없다. 
+
+이럴 때에는 proto 파일에서 중복된 오브젝트가 있는 특정 파일을 import를 하고   
+이후 사용할 수가 있다 
+
+
+### proto로 만든 클래스가 인식이 안될 경우 tip
+예를 들어서   
+```
+my_file.cpp:xxxxxx...생략.. undefined reference to 'proto::MyProtoFile::MyProtFile'
+```
+
+CMakeLists.txt 에서 proto 파일 관련 .cc .h 파일을 add_library() 등에   
+경로 잘 맞춰서 넣었고, 
+해당 proto 버퍼로 만들어진 클래스를 사용할 header 파일도 잘 인쿠르드해서 문제가 없는 경우에는  
+
+CMakeLists.txt 파일을 한번 변화를 준다. 예를 들어서 스페이스바를 한번 입력을 해서 파일 자체가 변화되게 한다음에   
+저장하고   
+colcon build 를 해주면 해당 파일을 잘 찾아서 빌드를 해준다. 
+
+> CMakeLists.txt 파일이 변화가 있어야지 새로 file들을 추가해 주는 듯 하다.   
+`file(GLOB PROTO_HDRS "*.pb.h")` 이렇게 파일을 추가한 것과 관련이 있는 건지 잘 모르겠다.   
 
 
