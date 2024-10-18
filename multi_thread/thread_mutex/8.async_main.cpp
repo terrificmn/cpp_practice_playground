@@ -39,5 +39,7 @@ int main() {
     return 0;
 }
 
+/// backgroundThread 가 future로 받아지면, .get() 함수를 이용해서 결과 값을 받을 수 있다. 
+// 예: if(backgroundThread.get())
 
 // g++ -o async async_main.cpp -lpthread
