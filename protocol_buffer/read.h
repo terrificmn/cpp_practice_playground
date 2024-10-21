@@ -17,7 +17,9 @@ void ListPeople(const tutorial::AddressBook& address_book) {
     
         for(int j= 0; j < person.phones_size(); j++) {
             const tutorial::Person::PhoneNumber& phone_number = person.phones(j);
-
+            
+            // repeated로 처리된 배열은 phones(i)로 받아온 후 . 이하 계속 접근이 가능
+            // 예 phone_number.type(), phone_number.number()
             switch(phone_number.type()) {
                 case tutorial::Person::PHONE_TYPE_MOBILE:
                     std::cout << " Mobile phone #: ";
