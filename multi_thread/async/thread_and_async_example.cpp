@@ -64,3 +64,10 @@ int main() {
 
 
 // g++ -std=c++17 -o thread_n_async thread_and_async_example.cpp
+
+// 아무래도 위의 예제에서는 thread 함수가 무한 루프가 아니고 std::future 로 async로 한번 함수를 실행하게 되면   
+// 서로 block이 안되고 잘 작동이 된다. 
+// 단 thread 가 무한루프이게 되면 async가 계속 또 실행이 될 수가 있으므로 이렇게 되면 제대로 결과가 안 나온다. 
+// block 되거나 이상한 결과가 나오게 된다. 
+// 그리고 async 함수를 실행할 때에는 std::future 로 결과를 받아 주는게 좋다. (void 라도)
+// 단, future에서 .get() / .wait() 를 사용하게 되면 block이 된다. 
