@@ -24,7 +24,11 @@ extern "C" {
  * 
  * @param L 
  * @return int 
+lua 파일에는 이런식으로 함수로 호출하게 되어 있다. 
+passParamExample(10, 'function from Lua to C++')
+lua_State* L 로 받아서 사용하게 된다.
  */
+
 static int TestCppFunc(lua_State* L) {
     const int num = (int)lua_tonumber(L, 1);  // get the first param from stack
     const char* str = lua_tostring(L, 2); // get the second param from stack
@@ -58,6 +62,9 @@ static int getParamFromLua(lua_State* L) {
     if (!lua_isnumber(L, 5)) {
         std::cout << "not a number" << std::endl;
     }
+    // lua_isboolean()
+    // lua_isinteger()
+    // lua_isstring() 등 많다.
 
     // 포인터 L로 부터 넘어온 파라미터를 알 수가 있는데, lua_gettop(L) 을 하면 parameter 갯수를 알 수가 있고
     // 이를 활용해서 for 를 사용하거나 하며 됨  
@@ -95,16 +102,26 @@ int main(int argc, const char* argv[]) {
     luaL_openlibs(L);  // give lua access to basic libraries
 
     // stack 구조로 c++ lua 간 커뮤니케이션 가능하게 됨 (real stack과는 조금 다르다고 함)
-    // register cpp function -- 2번째 arg는 lua의 함수, 3번째는 cpp함수
-    // register를 한 후에 lua 파일을 읽으면 됨
-    lua_register(L, "myCppFunctionFromCPP", TestCppFunc); 
+    // 아래의 두 개의 예제는 같은 방식임
+    ///IMPORTANT: register cpp function -- 2번째 arg는 lua의 함수, 3번째는 cpp함수가 된다.
+    // register를 한 후에 lua 파일을 읽으면 된다. 
+    lua_register(L, "passParamExample", TestCppFunc); 
     lua_register(L, "passParamToCpp", getParamFromLua);  //function 등록  // lua file에서의 함수 이름이 정확히 맞아야 작동한다
     // 한 쌍이라고 생각하면 될 듯 하다. lua쪽은 퍼블리셔, cpp쪽은 서브스크라이브 같은 느낌이지만 (조금 헷깔리므로)
     // 같은 함수를 호출 한다고 생각하면 함수 이름을 같은 것을 사용해도 될 듯 하다. 
+    /* lua file에는 예 lua.lua 파일에는 
+        passParamToCpp(
+            param1,
+            param2
+        )
+        식으로 구성해준다.
+    */
 
     // lua파일 읽기
     luaL_dofile(L, "lua.lua");
 
+    // 아래 방법은 cpp에서 lua 파일내의 함수를 호출하는 방법, 미리 register 하지 않고 바로 사용
+    // 함수 호출 후, 파라미터를 하나씩 넘겨준다.
     // call lua function from c++
     lua_getglobal(L, "myLuaFunction"); // find lua function
     lua_pushnumber(L, 73); //push int
