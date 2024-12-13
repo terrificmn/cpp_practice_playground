@@ -10,6 +10,9 @@ lua는 5.4.4 에서 테스트 됨 (최신)
 ```
 g++ -o lua_test lua_open.cpp -llua -ldl
 ```
+> 5.4 및 fedora 40 기준
+
+우분투 20 및 5.3은 `-llua5.3` 으로 찾아야 함
 
 
 ### get_Lua_h이용하는 테스트 못함.cpp 
