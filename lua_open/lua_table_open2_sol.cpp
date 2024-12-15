@@ -30,6 +30,7 @@ int main(int argc, const char* argv[]) {
     /// call the lua function in a lua file.
     sol::function get_table = lua["passTableToCpp"]; // function in a lua
     sol::table lua_table = get_table(); // sol::function 
+    /// 단, lua에서 function 없이도 바로 table만 받을 수 있다. lua_table.lua 파일 주석 참고
     
     for(const auto& [key, value] : lua_table) {
         std::string str_key = key.as<std::string>();
