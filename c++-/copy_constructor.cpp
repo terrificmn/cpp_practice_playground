@@ -62,11 +62,20 @@ public:
     void setArray(int index, int value) {
         this->my_array[index] = value;
     }
-    
+
 private:
     int* my_array;
 };
 
+// 주석해제 후 확인해보자
+// void printAnArray(const MyArray& array) {
+void printAnArray(MyArray array) {
+    /// Do nothing
+
+    // 또한 파라미터로 받을 때에도 copy constructor가 작동을 한다. 아규먼트로 들어온 것은 const reference로 처리하지만
+    // 파라미터 안에서 사용될 array 자체는 새로 만들어지게 된다.
+    // 그래서 카피 자체는 피할 수가 없지만, 파라미터를 const MyArray& array 로 reference로 바꿔주면 copy constructor가 작동자체를 안하게 된다.
+}
 
 int main() {
     /// default constructor가 작동하며,  보통 멤버 변수 (float이므로)4byte 씩 할당하게 됨
@@ -105,6 +114,17 @@ int main() {
     /// 먼저 서로 주소가 다르게 되면 left hand side 의 myArray2 의 내용을 지우고 right hand side 인 myArray 내용을 카피하게 된다.
     myArray2 = myArray;
     myArray2.printArray();
+
+
+    std::cout << "\njust using call the printAnArray" << std::endl;
+    // printAnArray()는 하는 일은 없고 파라미터만 받을 뿐인데, 여전히 카피가 일어난다.
+    // 물론 파라미터를 void printAnArray(const MyArray& array) 로 바꿔주면 copy constructor가 작동하지 않는다.
+    printAnArray(myArray2);
+
+    /// copy constuctor를 사용하지 않게 하려면 아예 컴파일 에러를 발생시킬 수도 있다.
+    /// 1. copy constuctor 를 private 으로 변경 후 컴파일
+    /// 2. 또는 헤더파일로 따로 정의가 되어 있을 경우 delete를 사용해서 아예 copy constructor가 사용이 안되게 할 수가 있다.
+    // 예  MyArray(const MyArray& rhs)=delete;
 
     return 0;
 }
