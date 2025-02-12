@@ -38,7 +38,8 @@ int main() {
     new_str = static_cast<std::string&&>(my_str); // This is the equivalent move assignment.
 
     std::cout << std::endl;
-    std::cout << "my_str : " << my_str << std::endl;
+    std::cout << "use r value reference && " << std::endl;
+    std::cout << "my_str : " << my_str << std::endl; /// && (r밸류 레퍼런스)를 이용하면 std::move와 같은 효과이므로,, my_str 이 empty가 된것을 확인할 수가 있다.
     std::cout << "new_str : " << new_str << std::endl;
 
 
