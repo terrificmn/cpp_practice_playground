@@ -5,6 +5,9 @@ class MyVector3 {
         float x,y,z; // primitive data 이기 때문에 assignment에 큰 문제가 없다. (default로 처리가능)
 };
 
+
+/// shared_ptr 로 만들어서 사용할 경우에는 카피 또는 할당할 경우에는 copy 컨스트럭터는 작동하지 않는듯 하다. // 아마도 share 개념이어서 copy가 필요 없는지도 모르겠다. 
+
 class MyArray {
 public:
     MyArray() {

@@ -23,6 +23,7 @@ int main() {
             std::shared_ptr<MClass> ptr2 = ptr1;
 
             std::cout << "current use count :" << ptr2.use_count() << std::endl;
+            // use_count() 라고 해서 딱히 사용하는 것은 아니고 카운트만 상태를 알 수 있다.
         }
         //ptr2 is freed. but ptr1 still survives
         std::cout << "current use count :" << ptr1.use_count() << std::endl;  // use_count()가 다 0이 되어야 없어진다.
