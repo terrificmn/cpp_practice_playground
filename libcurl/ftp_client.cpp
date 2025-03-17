@@ -181,11 +181,6 @@ int main() {
     return 0;
 }
 
-// 의존성 설치 - 페도라 sudo dnf install libcurl-devel
-// 우분투 sudo apt install libcurl4-openssl-dev
 
-/// FYI: cmake 할 경우
-// find_package(CURL REQUIRED)
-// target_link_libraries(${PROJECT_NAME} PRIVATE CURL::libcurl)
 
 // c++ -std=c++17 -o ftp ftp_client.cpp -lcurl
