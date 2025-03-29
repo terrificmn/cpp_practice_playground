@@ -25,8 +25,8 @@ int main(int argc, const char* argv[]) {
     luaL_openlibs(L);  // give lua access to basic libraries
 
     // lua파일 읽기 - lua 파일 없거나, lua 형식이 올바르지 않을 경우에도 에러 발생할 수 있다.
-    if( luaL_dofile(L, "lua_table.lua") != LUA_OK) {
-        std::cerr << "lua_table.lua not found." << std::endl;
+    if( luaL_dofile(L, "lua_function.lua") != LUA_OK) {
+        std::cerr << "lua_function.lua not found." << std::endl;
     };
 
     lua_getglobal(L, "passTableToCpp"); // lua에 있는 함수를 stack에 push
@@ -77,4 +77,4 @@ int main(int argc, const char* argv[]) {
     return 0;
 }
 
-// g++ -std=c++17 -o lua_table lua_table_open1_lua_function.cpp -llua
+// g++ -std=c++17 -o lua_function lua_table_open1_lua_function.cpp -llua
