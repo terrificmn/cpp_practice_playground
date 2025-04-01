@@ -30,6 +30,43 @@ void myPrint(const Args&... args) {
     std::cout << stream_str << std::endl;
 }
 
+/*
+추가!!!!!!!
+fold expression은 c++17 이상에서 가능한 기능이며, parameter pack이라고 불리는 (Args...) 로   
+여러개의 아규먼트를 의미하게 된다.   
+
+  ((stream << args << " "), ...);
+이는  
+  stream << args1 << " ";
+  stream << args2 << " ";
+  stream << args3 << " ";
+이런 느낌이 된다.  
+
+자동으로 모든 아규먼트에 대해서 처리를 해주게 된다.  
+
+만약 해당 Args로 넘어오는 것을 따로 확인하고 싶으면  
+args 부분에서 다른 함수를 만들어서 넘겨주면 된다.   
+이때는 args를 넘겨줄 때에는 typename T 로 받을 수가 있다.  
+
+예:
+template <typename T>;
+std::string isBool(const T& value) {
+    if constexpr (std::is_same_v<std::decay_t<T>, bool>) { // compile 단계에서 확인하면 T가 bool 인지 확인하는 작업
+        // std::decay_t<T>, bool 은 bool 로 처리될 수 있게 해준다.
+        return value ? "TRUE" : "FALSE";  // Convert bool to string
+    } else {
+        std::ostringstream oss;
+        oss << value;
+        return oss.str(); //다른 타입이라면 어차피 스트링으로 출력해야하므로 string으로 리턴 해주게 된다.
+    }
+}
+
+ // fold expression 활용
+ ((stream << isBool(args) << " "), ...);
+
+*/
+
+
 
 int main() {
 
