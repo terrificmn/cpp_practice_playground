@@ -1,0 +1,4 @@
+my_yaml:
+  my_option1: "1234"
+  my_option2: hello
+  my_option3: 1234
