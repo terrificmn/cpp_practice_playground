@@ -22,8 +22,10 @@ std::condition_variable g_condition_variable;
 ///FYI: 확실히 loop 을 계속 사용하는 상태에서는 condition_variable 을 사용하면 효과적으로 thread를 제어할 수 있어서 좋을 것 같다. 
 /// 다만, thread를 계속 만들어서 사용하는 경우: 예를 들어 vector에 만들어서 계속 사용하는 경우에 
 /// 계속 while loop를 발생시키는 상황에서 g_condition_variable.wait(lock); 락을 걸고 
-/// 또 다른 함수에서 trigger 를 시키면 다른 thread id 를 가지는 thread가 만들어지는데, 먼저 lock 이 걸린 thread 는 계속 있게 된다.  
-/// (std::this_thread::get_id() 를 통해서 알 수 있음)
+/// 또 다른 함수에서 trigger 를 시키면 다른 thread id 를 가지는 thread가 만들어지는데, 먼저 lock 이 걸린 thread 는 계속 있게 된다.   
+/// 즉, 먼저thread가 종료가 안되었다면 계속 잠겨 있는 상태가 되고 새로운 thread에서 계속 작업이 될 수 있어서, thread가 실행이 되지 않도록  bool, condition_variable로 잘 제어를 해줘야 한다.  
+/// (std::this_thread::get_id() 를 통해서 알 수 있음), mutex 와 condition_variable을 잘 활용해야한다.   
+/// condition_variable2 를 확인하자.
 /// thread 2개에서 계속 무한 loop로 사용하면서 뭔가 일을 할 때에 사용하면 좋을 듯 하다.
 
 int main() {
