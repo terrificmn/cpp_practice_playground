@@ -71,7 +71,11 @@ int main() {
             my_condition_variable.wait(lock, [this] {
             return (is_thread_running && !is_standby) || stop_need ;
         });
-        is_thread_running 이 true, is_standby 가 false 일 때 TRUE 가 되어서 빠져나와 to do  something 하면 되고 ㅋ
+        is_thread_running 이 true, is_standby 가 false 라면 && 연산자로 해당 () 조건이 TRUE 가 되고,  
+        이후 OR 조건을 만나서 먼저의 () 결과와 stop_need 둘 중 하나라도 true 면 TRUE가 되어서 빠져나올 수가 있다.  
+
+        이후  wake 하게 되면 thread 함수를 리턴하거나 원하는 기능을 하면 된다. 
+        
         종료 함수에서 stop_need 를 true를 걸고 notify_one() 을 해서 해서 다시 한번 wait()함수에서 확인할 수 있게 해서 
         빠져나오게 되면 된다.
 
