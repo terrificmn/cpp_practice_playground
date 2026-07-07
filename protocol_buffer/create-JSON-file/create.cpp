@@ -25,3 +25,12 @@ int main() {
         std::cerr << "not opened\n";
     }
 }
+
+// 이 외에도 proto file에서 camelcase 로 사용하더라도 protobuf 를 사용해서 cc 파일을 만들때 normalized 해버리게 때문에 
+// 실제로 사용할 때에는 camelcase 함수가 아닌 함수로 불러야 할 경우가 있다.  
+// 예 message {
+//     optional currentTime  = 1;
+// }
+
+// 실제로 c++에서 사용할 때에는 
+// /*..대충 생략...*/  MyMsg.currenttime();
